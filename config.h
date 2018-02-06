@@ -29,6 +29,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gnome-terminal", NULL, NULL,       1 << 0,       0,           -1 },
+	{ "Google-chrome-beta",  NULL, NULL,  1 << 3,       0,           -1 },
 	{ "Google-chrome",  NULL, NULL,       1 << 1,       0,           -1 },
 	{ "Emacs",    NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "copyq",     NULL,      NULL,       1 << 4,       1,           -1 },
