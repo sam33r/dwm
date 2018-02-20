@@ -250,6 +250,11 @@ static void zoom(const Arg *arg);
 static void centeredmaster(Monitor *m);
 static void centeredfloatingmaster(Monitor *m);
 
+static void keyrelease(XEvent *e);
+static void combotag(const Arg *arg);
+static void comboview(const Arg *arg);
+
+
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
@@ -262,6 +267,7 @@ static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = {
 	[ButtonPress] = buttonpress,
+	[ButtonRelease] = keyrelease,
 	[ClientMessage] = clientmessage,
 	[ConfigureRequest] = configurerequest,
 	[ConfigureNotify] = configurenotify,
@@ -269,6 +275,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 	[EnterNotify] = enternotify,
 	[Expose] = expose,
 	[FocusIn] = focusin,
+	[KeyRelease] = keyrelease,
 	[KeyPress] = keypress,
 	[MappingNotify] = mappingnotify,
 	[MapRequest] = maprequest,
@@ -292,6 +299,42 @@ static Window root, wmcheckwin;
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
+static int combo = 0;
+
+void
+keyrelease(XEvent *e) {
+	combo = 0;
+}
+
+void
+combotag(const Arg *arg) {
+	if(selmon->sel && arg->ui & TAGMASK) {
+		if (combo) {
+			selmon->sel->tags |= arg->ui & TAGMASK;
+		} else {
+			combo = 1;
+			selmon->sel->tags = arg->ui & TAGMASK;
+		}
+		focus(NULL);
+		arrange(selmon);
+	}
+}
+
+void
+comboview(const Arg *arg) {
+	unsigned newtags = arg->ui & TAGMASK;
+	if (combo) {
+		selmon->tagset[selmon->seltags] |= newtags;
+	} else {
+		selmon->seltags ^= 1;	/*toggle tagset*/
+		combo = 1;
+		if (newtags)
+			selmon->tagset[selmon->seltags] = newtags;
+	}
+	focus(NULL);
+	arrange(selmon);
+}
+
 void
 applyrules(Client *c)
 {
