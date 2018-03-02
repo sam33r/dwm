@@ -37,8 +37,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gnome-terminal", NULL, NULL,       1 << 0,       0,           -1 },
-	{ "st-256color", NULL, NULL,          1 << 0,       0,           -1 },
-	{ "Google-chrome-beta", NULL, NULL,  1 << 3,       0,           -1 },
+	{ "st-256color", NULL,    NULL,       1 << 0,       0,           -1 },
+	{ "Google-chrome-beta", NULL, NULL,   1 << 3,       0,           -1 },
 	{ "Google-chrome",  NULL, NULL,       1 << 1,       0,           -1 },
 	{ NULL,    "emacs",       NULL,       1 << 2,       0,           -1 },
 	{ "copyq",     NULL,      NULL,       1 << 4,       1,           -1 },
@@ -69,16 +69,8 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "rofi", "-combi-modi", "window,drun", "-show", "combi", "-modi", "combi", NULL };
-/* static const char *termcmd[]  = { "gnome-terminal", NULL }; */
-static const char *editcmd[]  = { "emacsclient", "-c", "--alternate-editor", "", NULL };
-
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -122,7 +114,6 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = editcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
