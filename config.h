@@ -42,7 +42,8 @@ static const Rule rules[] = {
 	{ "Google-chrome-beta", NULL, NULL,   1 << 3,       0,           -1 },
 	{ "Google-chrome",  NULL, NULL,       1 << 1,       0,           -1 },
 	{ NULL,    "emacs",       NULL,       1 << 2,       0,           -1 },
-	{ "copyq",     NULL,      NULL,       1 << 4,       1,           -1 },
+	{ "copyq",     NULL,      NULL,       ~0,           1,           -1 },
+	{ "stalonetray", NULL,    NULL,       1 << 4,       1,           -1 },
 };
 
 /* layout(s) */
