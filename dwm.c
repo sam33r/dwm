@@ -1646,6 +1646,9 @@ rotatestack(const Arg *arg)
 		focus(f);
 		restack(selmon);
 	}
+  Arg a;
+  a.i = -1*(arg->i);
+  focusstack(&a);
 }
 
 void
