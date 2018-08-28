@@ -7,6 +7,17 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 
+/* System Tray */
+// 0: sloppy systray follows selected monitor, >0: pin systray to monitor X
+static const unsigned int systraypinning = 0;
+// systray spacing
+static const unsigned int systrayspacing = 2;
+// 1: if pinning fails, display systray on the first monitor
+// 0: display systray on the last monitor
+static const Bool systraypinningfailfirst = True;
+// False means no systray
+static const Bool showsystray = True;
+
 /*   Display modes of the tab bar: never shown, always shown, shown only in */
 /*   monocle mode in presence of several windows.                           */
 /*   Modes after showtab_nmodes are disabled                                */
