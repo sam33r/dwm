@@ -697,8 +697,14 @@ clientmessage(XEvent *e)
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
 				|| cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
-		if (c != selmon->sel && !c->isurgent)
-			seturgent(c, 1);
+    // First set the client as urgent.
+    if (c != selmon->sel && !c->isurgent)
+      seturgent(c, 1);
+    // Then attempt to focus client. This will fail if the client
+    // is not available in the currently visible tags.
+    focus(c);
+    zoom(&arg);
+    restack(selmon);
 	} else if(cme->message_type == netatom[NetWMDesktop]) {
     c->tags = cme->data.l[0];
     arrange(c->mon);
