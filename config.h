@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 3;        /* gap pixel between windows */
+static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
@@ -47,14 +47,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gnome-terminal", NULL, NULL,       1 << 0,       0,           -1 },
-	{ "st-256color", NULL,    NULL,       1 << 0,       0,           -1 },
-	{ "Google-chrome-beta", NULL, NULL,   1 << 3,       0,           -1 },
-	{ "Google-chrome",  NULL, NULL,       1 << 1,       0,           -1 },
-	{ NULL,    "emacs",       NULL,       1 << 2,       0,           -1 },
-	{ "copyq",     NULL,      NULL,       ~0,           1,           -1 },
-	{ "stalonetray", NULL,    NULL,       1 << 4,       1,           -1 },
+	/* class                instance title  tags mask isfloating monitor */
+	{ "Gnome-terminal",     NULL,    NULL,  1 << 0,   0,         -1 },
+	{ "st-256color",        NULL,    NULL,  1 << 0,   0,         -1 },
+	{ "Google-chrome-beta", NULL,    NULL,  1 << 3,   0,         -1 },
+  { "Google-chrome",      NULL,    NULL,  1 << 1,   0,         -1 },
+  { NULL,                 "emacs", NULL,  1 << 2,   0,         -1 },
+	{ "copyq",              NULL,    NULL,  ~0,       1,         -1 },
+	{ "scrcpy",             NULL,    NULL,  1 << 4,   1,         -1 },
+	{ "vlc",                NULL,    NULL,  ~0,       1,         -1 },
 };
 
 /* layout(s) */
@@ -89,7 +90,7 @@ static const Layout layouts[] = {
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      rotatestack,    {.i = +1 } },
   { MODKEY,                       XK_k,      rotatestack,    {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      focusstack,     {.i = +1 } },
