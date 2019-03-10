@@ -6,6 +6,7 @@ static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
+static const int mono               = 0;        /* 0 means mono mode */
 
 /* System Tray */
 // 0: sloppy systray follows selected monitor, >0: pin systray to monitor X
@@ -21,7 +22,7 @@ static const Bool showsystray = True;
 /*   Display modes of the tab bar: never shown, always shown, shown only in */
 /*   monocle mode in presence of several windows.                           */
 /*   Modes after showtab_nmodes are disabled                                */
-enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+enum showtab_modes { showtab_never, showtab_auto, showtab_always, showtab_nmodes };
 static const int showtab            = showtab_always; /* Default tab bar show mode */
 static const int toptab             = True;    /* False means bottom tab bar */
 
@@ -104,7 +105,7 @@ static Key keys[] = {
   { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_m,      monomode,       {0} },
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },

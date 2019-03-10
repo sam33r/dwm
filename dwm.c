@@ -146,6 +146,7 @@ struct Monitor {
 	int showtab;
 	int topbar;
 	int toptab;
+  int mono;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -255,6 +256,7 @@ static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void tabmode(const Arg *arg);
+static void monomode(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -827,6 +829,7 @@ createmon(void)
 	m->showtab = showtab;
 	m->topbar = topbar;
 	m->toptab = toptab;
+  m->mono = mono;
 	m->ntabs = 0;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
@@ -1331,8 +1334,11 @@ keypress(XEvent *e)
 	for (i = 0; i < LENGTH(keys); i++)
 		if (keysym == keys[i].keysym
 		&& CLEANMASK(keys[i].mod) == CLEANMASK(ev->state)
-		&& keys[i].func)
-			keys[i].func(&(keys[i].arg));
+		&& keys[i].func) {
+      if ((selmon->mono == 0) || (keys[i].func == monomode)) {
+			  keys[i].func(&(keys[i].arg));
+      }
+    }
 }
 
 void
@@ -2207,6 +2213,30 @@ tabmode(const Arg *arg)
 	arrange(selmon);
 }
 
+void monomode(const Arg *arg)
+{
+  selmon->mono = !(selmon->mono);
+  Arg tabmode_arg;
+  Arg togglebar_arg = {0};
+  Arg layout_arg;
+  if (selmon->mono) {
+    tabmode_arg.i = 0;
+    tabmode_arg.ui = 0;
+    if (selmon->showbar){
+      togglebar(&togglebar_arg);
+    }
+    layout_arg.v = &layouts[3];
+  } else {
+    tabmode_arg.i = 2;
+    tabmode_arg.ui = 2;
+    if (!selmon->showbar){
+      togglebar(&togglebar_arg);
+    }
+    layout_arg.v = &layouts[0];
+  }
+  tabmode(&tabmode_arg);
+  setlayout(&layout_arg);
+}
 
 void
 togglefloating(const Arg *arg)
