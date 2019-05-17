@@ -48,21 +48,23 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                instance title  tags mask isfloating monitor */
-	{ "Gnome-terminal",     NULL,    NULL,  1 << 0,   0,         -1 },
-	{ "st-256color",        NULL,    NULL,  1 << 0,   0,         -1 },
-	{ "Google-chrome-beta", NULL,    NULL,  1 << 3,   0,         -1 },
-  { "Google-chrome",      NULL,    NULL,  1 << 1,   0,         -1 },
-  { NULL,                 "emacs", NULL,  1 << 2,   0,         -1 },
-	{ "copyq",              NULL,    NULL,  ~0,       1,         -1 },
-	{ "scrcpy",             NULL,    NULL,  1 << 4,   1,         -1 },
-	{ "vlc",                NULL,    NULL,  ~0,       1,         -1 },
+	/* class                instance      title  tags mask isfloating monitor */
+	{ NULL,                 "capture",    NULL,  ~0,       1,         -1 },
+	{ NULL,                 "agenda",     NULL,  ~0,       1,         -1 },
+	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         -1 },
+	{ "st-256color",        NULL,         NULL,  1 << 0,   0,         -1 },
+	{ "Google-chrome-beta", NULL,         NULL,  1 << 3,   0,         -1 },
+  { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         -1 },
+  { NULL,                 "emacs",      NULL,  1 << 2,   0,         -1 },
+	{ "copyq",              NULL,         NULL,  ~0,       1,         -1 },
+	{ "scrcpy",             NULL,         NULL,  1 << 4,   1,         -1 },
+	{ "vlc",                NULL,         NULL,  ~0,       1,         -1 },
 };
 
 /* layout(s) */
 static const float mfact     = 0.6; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
 /* first entry is default */
 static const Layout layouts[] = {
