@@ -49,6 +49,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                instance      title  tags mask isfloating monitor */
+  { NULL,                 "current",    NULL,  ~0,       1,         -1 },
 	{ NULL,                 "capture",    NULL,  ~0,       1,         -1 },
 	{ NULL,                 "agenda",     NULL,  ~0,       1,         -1 },
 	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         -1 },
@@ -99,8 +100,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_y,      focusmaster,    {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_equal,  incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
   { MODKEY,                       XK_apostrophe, view,       {0} },
