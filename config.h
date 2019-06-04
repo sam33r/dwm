@@ -70,8 +70,8 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ ">M>",      centeredfloatingmaster },
 	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 	{ "[]=",      tile },
 	{ "[M]",      monocle },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
@@ -109,8 +109,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_c,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_m,      monomode,       {0} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -139,7 +139,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[4]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
+	{ ClkClientWin,         MODKEY,         Button2,        killclient,     {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
