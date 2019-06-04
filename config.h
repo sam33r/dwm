@@ -95,10 +95,10 @@ static const Layout layouts[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
-  { MODKEY,                       XK_j,      rotatestack,    {.i = +1 } },
-  { MODKEY,                       XK_k,      rotatestack,    {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      focusstack,     {.i = -1 } },
+  { MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
+  { MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_y,      focusmaster,    {.i = -1 } },
 	{ MODKEY,                       XK_equal,  incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } },
