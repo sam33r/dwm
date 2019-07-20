@@ -717,7 +717,6 @@ clientmessage(XEvent *e)
       // Then attempt to focus client. This will fail if the client
       // is not available in the currently visible tags.
       focus(c);
-      zoom(&arg);
       restack(selmon);
     }
 	} else if(cme->message_type == netatom[NetWMDesktop]) {
