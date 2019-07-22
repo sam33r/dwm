@@ -55,7 +55,6 @@ static const Rule rules[] = {
 	{ NULL,                 "agenda",     NULL,  ~0,       1,         -1 },
 	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         -1 },
 	{ "st-256color",        NULL,         NULL,  1 << 0,   0,         -1 },
-	{ "Google-chrome-beta", NULL,         NULL,  1 << 3,   0,         -1 },
   { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         -1 },
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         -1 },
 	{ "copyq",              NULL,         NULL,  ~0,       1,         -1 },
@@ -77,6 +76,14 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
+
+/* commands */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "st", NULL };
+
+static const char scratchpadname[] = "Google-chrome-beta";
+static const char *scratchpadcmd[] = { "google-chrome-beta", NULL };
 
 /* key definitions4*/
 #define MODKEY Mod4Mask
@@ -106,6 +113,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
   { MODKEY,                       XK_apostrophe, view,       {0} },
+  { MODKEY,                       XK_period, togglescratch,  {.v = scratchpadcmd} },
   { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },

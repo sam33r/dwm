@@ -257,6 +257,7 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
+static void spawn(const Arg *arg);
 static void tabmode(const Arg *arg);
 static void monomode(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
@@ -265,6 +266,7 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void togglescratch(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -341,6 +343,8 @@ static Window root, wmcheckwin;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
+
+static unsigned int scratchtag = 1 << LENGTH(tags);
 
 struct Pertag {
 	unsigned int curtag, prevtag; /* current and previous tag */
@@ -1425,6 +1429,19 @@ manage(Window w, XWindowAttributes *wa)
 		&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 	c->bw = borderpx;
 
+ 	selmon->tagset[selmon->seltags] &= ~scratchtag;
+
+
+	XClassHint ch = { NULL, NULL };
+	XGetClassHint(dpy, c->win, &ch);
+
+ 	if (!strcmp(ch.res_class, scratchpadname)) {
+ 		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
+ 		c->isfloating = True;
+ 		c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
+ 		c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
+ 	}
+
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
@@ -2147,6 +2164,24 @@ sigchld(int unused)
 	while (0 < waitpid(-1, NULL, WNOHANG));
 }
 
+void
+spawn(const Arg *arg)
+{
+	if (arg->v == dmenucmd)
+		dmenumon[0] = '0' + selmon->num;
+  selmon->tagset[selmon->seltags] &= ~scratchtag;
+	if (fork() == 0) {
+		if (dpy)
+			close(ConnectionNumber(dpy));
+		setsid();
+		execvp(((char **)arg->v)[0], (char **)arg->v);
+		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
+		perror(" failed");
+		exit(EXIT_SUCCESS);
+	}
+}
+
+
 Monitor *
 systraytomon(Monitor *m) {
  Monitor *t;
@@ -2283,6 +2318,28 @@ togglesticky(const Arg *arg)
 	selmon->sel->issticky = !selmon->sel->issticky;
 	arrange(selmon);
 }
+
+void
+togglescratch(const Arg *arg)
+{
+	Client *c;
+	unsigned int found = 0;
+
+	for (c = selmon->clients; c && !(found = c->tags & scratchtag); c = c->next);
+ 	if (found) {
+ 		unsigned int newtagset = selmon->tagset[selmon->seltags] ^ scratchtag;
+ 		if (newtagset) {
+ 			selmon->tagset[selmon->seltags] = newtagset;
+ 			focus(NULL);
+ 			arrange(selmon);
+ 		}
+ 		if (ISVISIBLE(c)) {
+ 			focus(c);
+ 			restack(selmon);
+ 		}
+ 	} else
+ 		spawn(arg);
+ }
 
 void
 toggletag(const Arg *arg)
