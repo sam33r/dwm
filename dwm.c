@@ -1400,8 +1400,9 @@ manage(Window w, XWindowAttributes *wa)
 	Client *c, *t = NULL;
 	Window trans = None;
 	XWindowChanges wc;
+	const char *class;
 
-	c = ecalloc(1, sizeof(Client));
+  c = ecalloc(1, sizeof(Client));
 	c->win = w;
 	/* geometry */
 	c->x = c->oldx = wa->x;
@@ -1434,8 +1435,9 @@ manage(Window w, XWindowAttributes *wa)
 
 	XClassHint ch = { NULL, NULL };
 	XGetClassHint(dpy, c->win, &ch);
+	class = ch.res_class ? ch.res_class : broken;
 
- 	if (!strcmp(ch.res_class, scratchpadname)) {
+  if (!strcmp(class, scratchpadname)) {
  		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
  		c->isfloating = True;
  		c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
