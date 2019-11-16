@@ -1364,9 +1364,7 @@ keypress(XEvent *e)
 		if (keysym == keys[i].keysym
 		&& CLEANMASK(keys[i].mod) == CLEANMASK(ev->state)
 		&& keys[i].func) {
-      if ((selmon->mono == 0) || (keys[i].func == monomode)) {
-			  keys[i].func(&(keys[i].arg));
-      }
+  	  keys[i].func(&(keys[i].arg));
     }
 }
 
@@ -2282,18 +2280,8 @@ void monomode(const Arg *arg)
   Arg togglebar_arg = {0};
   Arg layout_arg;
   if (selmon->mono) {
-    tabmode_arg.i = 0;
-    tabmode_arg.ui = 0;
-    if (selmon->showbar){
-      togglebar(&togglebar_arg);
-    }
     layout_arg.v = &layouts[3];
   } else {
-    tabmode_arg.i = 2;
-    tabmode_arg.ui = 2;
-    if (!selmon->showbar){
-      togglebar(&togglebar_arg);
-    }
     layout_arg.v = &layouts[0];
   }
   tabmode(&tabmode_arg);
