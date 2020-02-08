@@ -666,6 +666,8 @@ clientmessage(XEvent *e)
 	XSetWindowAttributes swa;
 	XClientMessageEvent *cme = &e->xclient;
 	Client *c = wintoclient(cme->window);
+  unsigned int i;
+
 	Arg arg;
 
 	if (showsystray && cme->window == systray->win && cme->message_type == netatom[NetSystemTrayOP]) {
@@ -715,15 +717,13 @@ clientmessage(XEvent *e)
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
 				|| cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
-    if (c != selmon->sel) {
-      // First set the client as urgent.
-      if (!c->isurgent)
-        seturgent(c, 1);
-      // Then attempt to focus client. This will fail if the client
-      // is not available in the currently visible tags.
-      focus(c);
-      restack(selmon);
-    }
+   	for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
+		if (i < LENGTH(tags)) {
+			const Arg a = {.ui = 1 << i};
+			view(&a);
+			focus(c);
+			restack(selmon);
+		}
 	} else if(cme->message_type == netatom[NetWMDesktop]) {
     c->tags = cme->data.l[0];
     arrange(c->mon);
