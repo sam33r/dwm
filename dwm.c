@@ -721,13 +721,18 @@ clientmessage(XEvent *e)
     if (c->mon != selmon) {
       focusmon(&arg);
     }
-   	for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
-		if (i < LENGTH(tags)) {
-			const Arg a = {.ui = 1 << i};
-			view(&a);
-			focus(c);
-			restack(selmon);
-		}
+    if(ISVISIBLE(c)) {
+      focus(c);
+      restack(selmon);
+    } else {
+      for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
+      if (i < LENGTH(tags)) {
+        const Arg a = {.ui = 1 << i};
+        view(&a);
+        focus(c);
+        restack(selmon);
+      }
+    }
 	} else if(cme->message_type == netatom[NetWMDesktop]) {
     c->tags = cme->data.l[0];
     arrange(c->mon);
