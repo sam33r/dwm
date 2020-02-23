@@ -59,6 +59,7 @@ static const Rule rules[] = {
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         -1 },
 	{ "copyq",              NULL,         NULL,  ~0,       1,         -1 },
 	{ "scrcpy",             NULL,         NULL,  1 << 4,   1,         -1 },
+	{ "Firefox",            NULL,         NULL,  1 << 4,   0,         -1 },
 	{ "vlc",                NULL,         NULL,  ~0,       1,         -1 },
 };
 
