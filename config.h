@@ -54,7 +54,7 @@ static const Rule rules[] = {
 	{ NULL,                 "capture",    NULL,  ~0,       1,         -1 },
 	{ NULL,                 "agenda",     NULL,  ~0,       1,         -1 },
 	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         -1 },
-	{ "st-256color",        NULL,         NULL,  ~0,       0,         -1 },
+	{ "st-256color",        NULL,         NULL,  ~0,       1,         -1 },
   { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         -1 },
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         -1 },
 	{ "copyq",              NULL,         NULL,  ~0,       1,         -1 },
