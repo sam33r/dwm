@@ -49,18 +49,18 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                instance      title  tags mask isfloating monitor */
-  { NULL,                 "current",    NULL,  ~0,       1,         -1 },
-	{ NULL,                 "capture",    NULL,  ~0,       1,         -1 },
-	{ NULL,                 "agenda",     NULL,  ~0,       1,         -1 },
-	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         -1 },
-	{ "st-256color",        NULL,         NULL,  ~0,       1,         -1 },
-  { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         -1 },
-  { NULL,                 "emacs",      NULL,  1 << 2,   0,         -1 },
-	{ "copyq",              NULL,         NULL,  ~0,       1,         -1 },
-	{ "scrcpy",             NULL,         NULL,  1 << 4,   1,         -1 },
-	{ "Firefox",            NULL,         NULL,  1 << 4,   0,         -1 },
-	{ "vlc",                NULL,         NULL,  ~0,       1,         -1 },
+	/* class                instance      title  tags mask iscentered isfloating monitor */
+  { NULL,                 "current",    NULL,  ~0,       1,         1,         -1 },
+	{ NULL,                 "capture",    NULL,  ~0,       1,         1,         -1 },
+	{ NULL,                 "agenda",     NULL,  ~0,       1,         1,         -1 },
+	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         0,         -1 },
+	{ "st-256color",        NULL,         NULL,  ~0,       1,         1,         -1 },
+  { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         0,         -1 },
+  { NULL,                 "emacs",      NULL,  1 << 2,   0,         0,         -1 },
+	{ "copyq",              NULL,         NULL,  ~0,       1,         1,         -1 },
+	{ "scrcpy",             NULL,         NULL,  1 << 4,   0,         1,         -1 },
+	{ "Firefox",            NULL,         NULL,  1 << 4,   0,         0,         -1 },
+	{ "vlc",                NULL,         NULL,  ~0,       0,         1,         -1 },
 };
 
 /* layout(s) */
