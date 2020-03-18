@@ -1944,7 +1944,6 @@ sendmon(Client *c, Monitor *m)
 	detach(c);
 	detachstack(c);
 	c->mon = m;
-	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
 	updateclientdesktop(c);
 	attach(c);
 	attachstack(c);
