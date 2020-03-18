@@ -105,7 +105,7 @@ static const char *scratchpadcmd[] = { "google-chrome-beta", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
   { MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -118,7 +118,7 @@ static Key keys[] = {
   { MODKEY,                       XK_apostrophe, view,       {0} },
   { MODKEY,                       XK_period, togglescratch,  {.v = scratchpadcmd} },
   { MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_w,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_m,      monomode,       {0} },
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[0]} },
