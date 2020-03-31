@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 5;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* gap pixel between windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int gappx     = 0;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
@@ -23,7 +23,7 @@ static const Bool showsystray = True;
 /*   monocle mode in presence of several windows.                           */
 /*   Modes after showtab_nmodes are disabled                                */
 enum showtab_modes { showtab_never, showtab_auto, showtab_always, showtab_nmodes };
-static const int showtab            = showtab_always; /* Default tab bar show mode */
+static const int showtab            = showtab_never; /* Default tab bar show mode */
 static const int toptab             = True;    /* False means bottom tab bar */
 
 static const char *fonts[]          = { "monospace:size=12" };
