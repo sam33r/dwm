@@ -1411,7 +1411,7 @@ manage(Window w, XWindowAttributes *wa)
 	Client *c, *t = NULL;
 	Window trans = None;
 	XWindowChanges wc;
-	const char *class;
+	const char *instance;
 
   c = ecalloc(1, sizeof(Client));
 	c->win = w;
@@ -1451,9 +1451,9 @@ manage(Window w, XWindowAttributes *wa)
 
 	XClassHint ch = { NULL, NULL };
 	XGetClassHint(dpy, c->win, &ch);
-	class = ch.res_class ? ch.res_class : broken;
+	instance = ch.res_name  ? ch.res_name  : broken;
 
-  if (!strcmp(class, scratchpadname)) {
+  if (!strcmp(instance, scratchpadname)) {
  		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
  		c->isfloating = True;
  		c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);

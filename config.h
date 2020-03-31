@@ -85,8 +85,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-static const char scratchpadname[] = "Google-chrome-beta";
-static const char *scratchpadcmd[] = { "google-chrome-beta", NULL };
+/* TODO: Remove this feature. */
+static const char scratchpadname[] = "XYZ";
+static const char *scratchpadcmd[] = { "XYZ", NULL };
 
 /* key definitions4*/
 #define MODKEY Mod4Mask
