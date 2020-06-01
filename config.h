@@ -26,8 +26,8 @@ enum showtab_modes { showtab_never, showtab_auto, showtab_always, showtab_nmodes
 static const int showtab            = showtab_never; /* Default tab bar show mode */
 static const int toptab             = True;    /* False means bottom tab bar */
 
-static const char *fonts[]          = { "monospace:size=12" };
-static const char dmenufont[]       = "monospace:size=12";
+static const char *fonts[]          = { "monospace:size=14" };
+static const char dmenufont[]       = "monospace:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -72,9 +72,9 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{ "[]=",      tile },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-	{ "[]=",      tile },
 	{ "[M]",      monocle },
 	{ "HHH",      grid },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
@@ -120,12 +120,12 @@ static Key keys[] = {
   { MODKEY,                       XK_period, togglescratch,  {.v = scratchpadcmd} },
   { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_w,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,      monomode,       {0} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -150,7 +150,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[4]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[5]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        killclient,     {0} },
