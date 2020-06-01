@@ -69,6 +69,8 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
 #include "layouts.c"
+#include "fibonacci.c"
+
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -77,7 +79,9 @@ static const Layout layouts[] = {
 	{ ">M>",      centeredfloatingmaster },
 	{ "[M]",      monocle },
 	{ "HHH",      grid },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "(@)",      spiral },
+	{ "[\\]",     dwindle },
+  { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
 /* commands */
@@ -125,6 +129,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -150,7 +156,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[5]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[7]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        killclient,     {0} },
