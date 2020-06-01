@@ -70,6 +70,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 #include "layouts.c"
 #include "fibonacci.c"
+#include "horizgrid.c"
 
 /* first entry is default */
 static const Layout layouts[] = {
@@ -78,7 +79,7 @@ static const Layout layouts[] = {
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
 	{ "[M]",      monocle },
-	{ "HHH",      grid },
+	{ "HHH",      horizgrid },
 	{ "(@)",      spiral },
 	{ "[\\]",     dwindle },
   { "><>",      NULL },    /* no layout function means floating behavior */
