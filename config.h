@@ -75,13 +75,13 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },
+	{ "[\\]",     dwindle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
 	{ "[M]",      monocle },
 	{ "HHH",      horizgrid },
 	{ "(@)",      spiral },
-	{ "[\\]",     dwindle },
+	{ "[]=",      tile },
   { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -125,12 +125,12 @@ static Key keys[] = {
   { MODKEY,                       XK_period, togglescratch,  {.v = scratchpadcmd} },
   { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_w,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_m,      monomode,       {0} },
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
