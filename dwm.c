@@ -272,6 +272,7 @@ static void togglescratch(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
+static void ensureeview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
@@ -302,6 +303,17 @@ static void keyrelease(XEvent *e);
 static void combotag(const Arg *arg);
 static void comboview(const Arg *arg);
 
+static void shscreenlock(void);
+static void sheditor(void);
+static void shterm(void);
+static void shbrowser(void);
+static void shaltbrowser(void);
+static void shclipboardmanager(void);
+static void shpasswordmanager(void);
+/* static void shlauncher(const Arg *arg); */
+static void shlauncher(void);
+static void shapp(void);
+static void shadminapp(void);
 
 /* variables */
 static Systray *systray = NULL;
@@ -2479,7 +2491,9 @@ toggletag(const Arg *arg)
 void
 toggleview(const Arg *arg)
 {
-	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
+  // TODO: This function is almost duplicated in ensureview().
+
+  unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
   int i;
 
   // The first visible client should be the same after we add a new tag
@@ -2520,6 +2534,55 @@ toggleview(const Arg *arg)
     arrange(selmon);
 	}
 }
+
+void
+ensureview(const Arg *arg)
+{
+  //TODO: This is an exact copy of toggleview(), except for the | operation
+  // instead of ^. Remove this duplication.
+	unsigned int newtagset = selmon->tagset[selmon->seltags] | (arg->ui & TAGMASK);
+  int i;
+
+  // The first visible client should be the same after we add a new tag
+  // We also want to be sure not to mutate the focus
+  Client *const c = nexttiled(selmon->clients);
+  if (c) {
+    Client * const selected = selmon->sel;
+    pop(c);
+    focus(selected);
+  }
+
+	if (newtagset) {
+		selmon->tagset[selmon->seltags] = newtagset;
+
+    if (newtagset == ~0) {
+      selmon->pertag->prevtag = selmon->pertag->curtag;
+      selmon->pertag->curtag = 0;
+    }
+
+    /* test if the user did not select the same tag */
+    if (!(newtagset & 1 << (selmon->pertag->curtag - 1))) {
+      selmon->pertag->prevtag = selmon->pertag->curtag;
+      for (i = 0; !(newtagset & 1 << i); i++) ;
+      selmon->pertag->curtag = i + 1;
+    }
+
+    /* apply settings for this view */
+    selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
+    selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
+    selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
+    selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
+    selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
+
+    if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
+      togglebar(NULL);
+
+    focus(NULL);
+    arrange(selmon);
+	}
+}
+
+
 
 void
 unfocus(Client *c, int setfocus)
@@ -3265,4 +3328,43 @@ centeredfloatingmaster(Monitor *m)
 		       m->wh - (2*c->bw), 0);
 		tx += WIDTH(c);
 	}
+}
+
+static void shscreenlock(void) {
+	system("cd ~/.dwm; ./screen-lock.sh &");
+}
+static void sheditor(void) {
+	Arg a = {.ui = 1 << 2};
+  ensureview(&a);
+	system("cd ~/.dwm; ./run-editor.sh &");
+}
+static void shterm(void) {
+	Arg a = {.ui = 1 << 0};
+  ensureview(&a);
+	system("cd ~/.dwm; ./run-term.sh &");
+}
+static void shbrowser(void) {
+	Arg a = {.ui = 1 << 4};
+  ensureview(&a);
+	system("cd ~/.dwm; ./run-browser.sh &");
+}
+static void shaltbrowser(void) {
+	Arg a = {.ui = 1 << 1};
+  ensureview(&a);
+	system("cd ~/.dwm; ./run-alt-browser.sh &");
+}
+static void shclipboardmanager(void) {
+	system("cd ~/.dwm; ./run-clipboard-manager.sh &");
+}
+static void shpasswordmanager(void) {
+	system("cd ~/.dwm; ./run-password-manager.sh &");
+}
+static void shlauncher(void) {
+	system("cd ~/.dwm; ./run-launcher.sh &");
+}
+static void shapp(void) {
+	system("cd ~/.dwm; ./run-app-launcher.sh &");
+}
+static void shadminapp(void) {
+	system("cd ~/.dwm; ./run-admin-app-launcher.sh &");
 }

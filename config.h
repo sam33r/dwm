@@ -139,6 +139,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_space,  shlauncher,     {0} },
+	{ MODKEY,                       XK_x,      shscreenlock,   {0} },
+	{ MODKEY,                       XK_e,      sheditor,       {0} },
+	{ MODKEY,                       XK_t,      shterm,         {0} },
+	{ MODKEY,                       XK_f,      shbrowser,      {0} },
+	{ MODKEY,                       XK_r,      shaltbrowser,   {0} },
+	{ MODKEY,                       XK_c,      shclipboardmanager,    {0} },
+	{ MODKEY,                       XK_p,      shpasswordmanager,     {0} },
+	{ MODKEY,                       XK_a,      shapp,          {0} },
+	{ MODKEY|ShiftMask,             XK_a,      shadminapp,     {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
