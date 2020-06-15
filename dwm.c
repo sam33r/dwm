@@ -130,7 +130,6 @@ typedef struct {
 
 #define MAXTABS 50
 
-typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
@@ -157,7 +156,6 @@ struct Monitor {
 	int ntabs;
 	int tab_widths[MAXTABS];
 	const Layout *lt[2];
-  Pertag *pertag;
 };
 
 typedef struct {
@@ -268,7 +266,6 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
-static void togglescratch(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -303,11 +300,13 @@ static void keyrelease(XEvent *e);
 static void combotag(const Arg *arg);
 static void comboview(const Arg *arg);
 
+static void shnumeric(const Arg *arg);
 static void shscreenlock(void);
 static void sheditor(void);
 static void shterm(void);
 static void shbrowser(void);
 static void shaltbrowser(void);
+static void shetc(void);
 static void shclipboardmanager(void);
 static void shpasswordmanager(void);
 /* static void shlauncher(const Arg *arg); */
@@ -358,17 +357,6 @@ static Window root, wmcheckwin;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
-
-static unsigned int scratchtag = 1 << LENGTH(tags);
-
-struct Pertag {
-	unsigned int curtag, prevtag; /* current and previous tag */
-	int nmasters[LENGTH(tags) + 1]; /* number of windows in master area */
-	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
-	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
-	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
-};
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
@@ -743,7 +731,7 @@ clientmessage(XEvent *e)
       for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
       if (i < LENGTH(tags)) {
         const Arg a = {.ui = 1 << i};
-        view(&a);
+        ensureview(&a);
         focus(c);
         restack(selmon);
       }
@@ -859,7 +847,6 @@ Monitor *
 createmon(void)
 {
 	Monitor *m;
-	unsigned int i;
 
 	m = ecalloc(1, sizeof(Monitor));
 	m->tagset[0] = m->tagset[1] = 1;
@@ -874,20 +861,6 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
-	m->pertag = ecalloc(1, sizeof(Pertag));
-	m->pertag->curtag = m->pertag->prevtag = 1;
-
-	for (i = 0; i <= LENGTH(tags); i++) {
-		m->pertag->nmasters[i] = m->nmaster;
-		m->pertag->mfacts[i] = m->mfact;
-
-		m->pertag->ltidxs[i][0] = m->lt[0];
-		m->pertag->ltidxs[i][1] = m->lt[1];
-		m->pertag->sellts[i] = m->sellt;
-
-		m->pertag->showbars[i] = m->showbar;
-	}
-
 	return m;
 }
 
@@ -1470,7 +1443,7 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+  selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
 	arrange(selmon);
 }
 
@@ -1568,21 +1541,7 @@ manage(Window w, XWindowAttributes *wa)
     c->y = c->mon->my + (c->mon->mh / 2 - HEIGHT(c) / 2);
   }
 
- 	selmon->tagset[selmon->seltags] &= ~scratchtag;
-
-
-	XClassHint ch = { NULL, NULL };
-	XGetClassHint(dpy, c->win, &ch);
-	instance = ch.res_name  ? ch.res_name  : broken;
-
-  if (!strcmp(instance, scratchpadname)) {
- 		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
- 		c->isfloating = True;
- 		c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
- 		c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
- 	}
-
-	wc.border_width = c->bw;
+  wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
@@ -2147,9 +2106,9 @@ void
 setlayout(const Arg *arg)
 {
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
-		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
+    selmon->sellt ^= 1;
 	if (arg && arg->v)
-		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
+    selmon->lt[selmon->sellt] = (Layout *)arg->v;
 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
 		arrange(selmon);
@@ -2168,7 +2127,7 @@ setmfact(const Arg *arg)
 	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
 	if (f < 0.1 || f > 0.9)
 		return;
-	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
+  selmon->mfact = f;
 	arrange(selmon);
 }
 
@@ -2311,7 +2270,6 @@ spawn(const Arg *arg)
 {
 	if (arg->v == dmenucmd)
 		dmenumon[0] = '0' + selmon->num;
-  selmon->tagset[selmon->seltags] &= ~scratchtag;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -2388,7 +2346,7 @@ tile(Monitor *m)
 void
 togglebar(const Arg *arg)
 {
-  selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->showbar;
+  selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
 	resizebarwin(selmon);
 	if (showsystray) {
@@ -2452,28 +2410,6 @@ togglesticky(const Arg *arg)
 }
 
 void
-togglescratch(const Arg *arg)
-{
-	Client *c;
-	unsigned int found = 0;
-
-	for (c = selmon->clients; c && !(found = c->tags & scratchtag); c = c->next);
- 	if (found) {
- 		unsigned int newtagset = selmon->tagset[selmon->seltags] ^ scratchtag;
- 		if (newtagset) {
- 			selmon->tagset[selmon->seltags] = newtagset;
- 			focus(NULL);
- 			arrange(selmon);
- 		}
- 		if (ISVISIBLE(c)) {
- 			focus(c);
- 			restack(selmon);
- 		}
- 	} else
- 		spawn(arg);
- }
-
-void
 toggletag(const Arg *arg)
 {
 	unsigned int newtags;
@@ -2492,9 +2428,7 @@ void
 toggleview(const Arg *arg)
 {
   // TODO: This function is almost duplicated in ensureview().
-
   unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
-  int i;
 
   // The first visible client should be the same after we add a new tag
   // We also want to be sure not to mutate the focus
@@ -2507,29 +2441,6 @@ toggleview(const Arg *arg)
 
 	if (newtagset) {
 		selmon->tagset[selmon->seltags] = newtagset;
-
-    if (newtagset == ~0) {
-      selmon->pertag->prevtag = selmon->pertag->curtag;
-      selmon->pertag->curtag = 0;
-    }
-
-    /* test if the user did not select the same tag */
-    if (!(newtagset & 1 << (selmon->pertag->curtag - 1))) {
-      selmon->pertag->prevtag = selmon->pertag->curtag;
-      for (i = 0; !(newtagset & 1 << i); i++) ;
-      selmon->pertag->curtag = i + 1;
-    }
-
-    /* apply settings for this view */
-    selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-    selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-    selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-    selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-    selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-    if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-      togglebar(NULL);
-
     focus(NULL);
     arrange(selmon);
 	}
@@ -2541,7 +2452,6 @@ ensureview(const Arg *arg)
   //TODO: This is an exact copy of toggleview(), except for the | operation
   // instead of ^. Remove this duplication.
 	unsigned int newtagset = selmon->tagset[selmon->seltags] | (arg->ui & TAGMASK);
-  int i;
 
   // The first visible client should be the same after we add a new tag
   // We also want to be sure not to mutate the focus
@@ -2554,29 +2464,6 @@ ensureview(const Arg *arg)
 
 	if (newtagset) {
 		selmon->tagset[selmon->seltags] = newtagset;
-
-    if (newtagset == ~0) {
-      selmon->pertag->prevtag = selmon->pertag->curtag;
-      selmon->pertag->curtag = 0;
-    }
-
-    /* test if the user did not select the same tag */
-    if (!(newtagset & 1 << (selmon->pertag->curtag - 1))) {
-      selmon->pertag->prevtag = selmon->pertag->curtag;
-      for (i = 0; !(newtagset & 1 << i); i++) ;
-      selmon->pertag->curtag = i + 1;
-    }
-
-    /* apply settings for this view */
-    selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-    selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-    selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-    selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-    selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-    if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-      togglebar(NULL);
-
     focus(NULL);
     arrange(selmon);
 	}
@@ -3035,36 +2922,11 @@ updatewmhints(Client *c)
 void
 view(const Arg *arg)
 {
-	int i;
-	unsigned int tmptag;
-
 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
 	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK) {
+	if (arg->ui & TAGMASK)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-		selmon->pertag->prevtag = selmon->pertag->curtag;
-
-		if (arg->ui == ~0)
-			selmon->pertag->curtag = 0;
-		else {
-			for (i = 0; !(arg->ui & 1 << i); i++) ;
-			selmon->pertag->curtag = i + 1;
-		}
-	} else {
-		tmptag = selmon->pertag->prevtag;
-		selmon->pertag->prevtag = selmon->pertag->curtag;
-		selmon->pertag->curtag = tmptag;
-	}
-
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-		togglebar(NULL);
 
 	focus(NULL);
 	arrange(selmon);
@@ -3344,7 +3206,7 @@ static void shterm(void) {
 	system("cd ~/.dwm; ./run-term.sh &");
 }
 static void shbrowser(void) {
-	Arg a = {.ui = 1 << 4};
+	Arg a = {.ui = 1 << 3};
   ensureview(&a);
 	system("cd ~/.dwm; ./run-browser.sh &");
 }
@@ -3352,6 +3214,17 @@ static void shaltbrowser(void) {
 	Arg a = {.ui = 1 << 1};
   ensureview(&a);
 	system("cd ~/.dwm; ./run-alt-browser.sh &");
+}
+
+void shnumeric(const Arg *arg) {
+  char cmd[50];
+  sprintf(cmd, "cd ~/.dwm; ./shortcut-%d.sh &", arg->ui);
+  system(cmd);
+}
+
+static void shetc(void) {
+	Arg a = {.ui = 1 << 4};
+  ensureview(&a);
 }
 static void shclipboardmanager(void) {
 	system("cd ~/.dwm; ./run-clipboard-manager.sh &");
