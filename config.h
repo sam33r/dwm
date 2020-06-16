@@ -157,7 +157,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_7, shnumeric,          {.ui = 7} },
 	{ MODKEY,                       XK_8, shnumeric,          {.ui = 8} },
 	{ MODKEY,                       XK_9, shnumeric,          {.ui = 9} },
-  { MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
