@@ -1832,8 +1832,11 @@ resizeclient(Client *c, int x, int y, int w, int h)
 		}
 	}
 
-	c->oldx = c->x; c->x = wc.x = x + gapoffset;
-	c->oldy = c->y; c->y = wc.y = y + gapoffset;
+  /* This ensures that there are no gaps b/w screen edges and clients. */
+  c->oldx = c->x; c->x = wc.x = x;
+  c->oldy = c->y; c->y = wc.y = y;
+	/* c->oldx = c->x; c->x = wc.x = x + gapoffset; */
+	/* c->oldy = c->y; c->y = wc.y = y + gapoffset; */
 	c->oldw = c->w; c->w = wc.width = w - gapincr;
 	c->oldh = c->h; c->h = wc.height = h - gapincr;
 
