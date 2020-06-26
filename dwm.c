@@ -313,6 +313,11 @@ static void shpasswordmanager(void);
 static void shlauncher(void);
 static void shapp(void);
 static void shadminapp(void);
+static void shtogglevolume(void);
+static void shincreasevolume(void);
+static void shdecreasevolume(void);
+static void shdecreasebrightness(void);
+static void shincreasebrightness(void);
 
 /* variables */
 static Systray *systray = NULL;
@@ -3243,4 +3248,19 @@ static void shapp(void) {
 }
 static void shadminapp(void) {
 	system("cd ~/.dwm; ./run-admin-app-launcher.sh &");
+}
+static void shtogglevolume(void) {
+	system("cd ~/.dwm; ./toggle-volume.sh &");
+}
+static void shincreasevolume(void) {
+	system("cd ~/.dwm; ./increase-volume.sh &");
+}
+static void shdecreasevolume(void) {
+	system("cd ~/.dwm; ./decrease-volume.sh &");
+}
+static void shdecreasebrightness(void) {
+	system("cd ~/.dwm; ./decrease-brightness.sh &");
+}
+static void shincreasebrightness(void) {
+	system("cd ~/.dwm; ./increase-brightness.sh &");
 }

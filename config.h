@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int gappx     = 7;       /* gap pixel between windows */
@@ -158,6 +160,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_7, shnumeric,          {.ui = 7} },
 	{ MODKEY,                       XK_8, shnumeric,          {.ui = 8} },
 	{ MODKEY,                       XK_9, shnumeric,          {.ui = 9} },
+  { 0,                            XF86XK_AudioLowerVolume,  shdecreasevolume,     {0} },
+  { 0,                            XF86XK_AudioRaiseVolume,  shincreasevolume,     {0} },
+  { 0,                            XF86XK_AudioMute,         shtogglevolume,       {0} },
+  { 0,                            XF86XK_MonBrightnessDown, shdecreasebrightness, {0} },
+  { 0,                            XF86XK_MonBrightnessUp,   shincreasebrightness, {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
