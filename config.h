@@ -149,7 +149,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      shpasswordmanager,     {0} },
 	{ MODKEY,                       XK_a,      shapp,          {0} },
 	{ MODKEY|ShiftMask,             XK_a,      shadminapp,     {0} },
-	{ MODKEY,                       XK_period, combotag,       {0} },
+	{ MODKEY,                       XK_period, combotag,       {.ui = 1 << 4} },
   { MODKEY|ShiftMask,             XK_period, comboview,      {.ui = 1 << 4} },
 	{ MODKEY,                       XK_1, shnumeric,          {.ui = 1} },
 	{ MODKEY,                       XK_2, shnumeric,          {.ui = 2} },
