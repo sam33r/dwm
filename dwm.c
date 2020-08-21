@@ -734,7 +734,10 @@ clientmessage(XEvent *e)
       restack(selmon);
     } else {
       for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
-      if (i < LENGTH(tags)) {
+      /* 4 is the tag number of the arbitrary tag I have assigned
+       * as the "holding bay" for windows that I want to exist but
+       * are not relevant to my work. */
+      if (i < LENGTH(tags) && i != 4) {
         const Arg a = {.ui = 1 << i};
         ensureview(&a);
         focus(c);
