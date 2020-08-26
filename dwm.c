@@ -1073,7 +1073,12 @@ drawbar(Monitor *m)
 
 	if ((w = m->ww - sw - x) > bh) {
 		if (m->sel) {
-			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+      /* Experimenting with not highlighting the active window's title.
+       * This highlighting is only useful to determine which monitor is active,
+       * and the status-bar is usually a reasonable enough visual indicator
+       * of the same. */
+      drw_setscheme(drw, scheme[SchemeNorm]);
+			/* drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]); */
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
