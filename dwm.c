@@ -1823,6 +1823,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	unsigned int n;
 	unsigned int gapoffset;
 	unsigned int gapincr;
+	unsigned int vertborderoffset;
 	Client *nbc;
 
 	wc.border_width = c->bw;
@@ -1830,15 +1831,21 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	/* Get number of clients for the selected monitor */
 	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
 
+	/* With multiple clients in tiling layouts, this
+	 * ensures that the top of the window is always top
+	 * of the monitor. */
+	vertborderoffset = borderpx;
+
 	/* Do nothing if layout is floating */
 	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
-		gapincr = gapoffset = 0;
+		gapincr = gapoffset = vertborderoffset = 0;
 	} else {
 		/* Remove border and gap if layout is monocle or only one client */
 		if (selmon->lt[selmon->sellt]->arrange == monocle || n == 1) {
 			gapoffset = 0;
 			gapincr = -2 * borderpx;
 			wc.border_width = 0;
+			vertborderoffset = 0;
 		} else {
 			gapoffset = gappx;
 			gapincr = 2 * gappx;
@@ -1847,11 +1854,11 @@ resizeclient(Client *c, int x, int y, int w, int h)
 
   /* This ensures that there are no gaps b/w screen edges and clients. */
   c->oldx = c->x; c->x = wc.x = x;
-  c->oldy = c->y; c->y = wc.y = y;
+  c->oldy = c->y; c->y = wc.y = y - vertborderoffset;
 	/* c->oldx = c->x; c->x = wc.x = x + gapoffset; */
 	/* c->oldy = c->y; c->y = wc.y = y + gapoffset; */
 	c->oldw = c->w; c->w = wc.width = w - gapincr;
-	c->oldh = c->h; c->h = wc.height = h - gapincr;
+	c->oldh = c->h; c->h = wc.height = h - gapincr + vertborderoffset;
 
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
