@@ -3,7 +3,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int borderpx  = 7;        /* border pixel of windows */
 static const unsigned int gappx     = 7;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -40,8 +40,8 @@ static const char col_green[]       = "#39e6e3";
 static const char col_red[]         = "#d9002b";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray2, col_gray4, col_gray2 },
-	[SchemeSel]  = { col_red, col_white, col_green  },
+	[SchemeNorm] = { col_gray2, col_gray4, col_gray1 },
+	[SchemeSel]  = { col_red, col_white, col_red  },
 };
 
 /* tagging */
