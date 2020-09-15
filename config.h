@@ -60,6 +60,7 @@ static const Rule rules[] = {
 	{ "Alacritty",          NULL,         NULL,  1 << 0,   0,         0,         -1 },
 	{ "st-256color",        NULL,         NULL,  ~0,       1,         1,         -1 },
   { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         0,         -1 },
+  { "Chromium",           NULL,         NULL,  1 << 1,   0,         0,         -1 },
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         0,         -1 },
 	{ "copyq",              NULL,         NULL,  ~0,       1,         1,         -1 },
 	{ "scrcpy",             NULL,         NULL,  1 << 4,   0,         1,         -1 },
