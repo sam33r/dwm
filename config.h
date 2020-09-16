@@ -175,6 +175,7 @@ static Key keys[] = {
   { 0,                            XF86XK_AudioLowerVolume,  shdecreasevolume,     {0} },
   { 0,                            XF86XK_AudioRaiseVolume,  shincreasevolume,     {0} },
   { 0,                            XF86XK_AudioMute,         shtogglevolume,       {0} },
+  { 0,                            XF86XK_AudioMicMute,      shtogglemic,          {0} },
   { 0,                            XF86XK_MonBrightnessDown, shdecreasebrightness, {0} },
   { 0,                            XF86XK_MonBrightnessUp,   shincreasebrightness, {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },

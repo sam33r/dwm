@@ -314,6 +314,7 @@ static void shlauncher(void);
 static void shapp(void);
 static void shadminapp(void);
 static void shtogglevolume(void);
+static void shtogglemic(void);
 static void shincreasevolume(void);
 static void shdecreasevolume(void);
 static void shdecreasebrightness(void);
@@ -3266,6 +3267,9 @@ static void shadminapp(void) {
 }
 static void shtogglevolume(void) {
 	system("cd ~/.dwm; ./toggle-volume.sh &");
+}
+static void shtogglemic(void) {
+	system("cd ~/.dwm; ./toggle-mic.sh &");
 }
 static void shincreasevolume(void) {
 	system("cd ~/.dwm; ./increase-volume.sh &");
