@@ -2052,6 +2052,17 @@ sendmon(Client *c, Monitor *m)
 	updateclientdesktop(c);
 	attach(c);
 	attachstack(c);
+
+  /* Enable the appropriate set of tags on the other monitor.
+   * Note: This,like many other things in this repository,
+   * assumes a dual-monitor setup.                           */
+	Arg a = {.ui = -1};
+  focusmon(&a);
+  Arg view_arg = {.ui = c->tags};
+  ensureview(&view_arg);
+
+  /* Come back to the original monitor and select nothing. */
+  focusmon(&a);
 	focus(NULL);
 	arrange(NULL);
 }
