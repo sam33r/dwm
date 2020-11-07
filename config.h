@@ -156,7 +156,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_r,      comboview,      {.ui = 1 << 1} },
 	{ MODKEY|ControlMask,           XK_r,      combotag,       {.ui = 1 << 1} },
 	{ MODKEY,                       XK_c,      shclipboardmanager,    {0} },
-	{ MODKEY,                       XK_p,      shpasswordmanager,     {0} },
+	{ MODKEY,                       XK_p,      togglefloating,        {0} },
+	{ MODKEY|ShiftMask,             XK_p,      shpasswordmanager,     {0} },
 	{ MODKEY,                       XK_a,      shapp,          {0} },
 	{ MODKEY|ShiftMask,             XK_a,      shadminapp,     {0} },
   /* Holding bay. */
