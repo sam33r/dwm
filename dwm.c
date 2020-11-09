@@ -2559,9 +2559,9 @@ togglefloating(const Arg *arg)
 		/* 	selmon->sel->w, selmon->sel->h, 0); */
     resize(selmon->sel,
            (selmon->wx +(0.25*selmon->ww)),
-           (selmon->wy +(0.1*selmon->wh)),
+           (selmon->wy +(0.05*selmon->wh)),
            (selmon->ww*0.5),
-           (selmon->wh*0.8),
+           (selmon->wh*0.9),
            0); 
   }
 	arrange(selmon);
