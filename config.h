@@ -81,6 +81,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{ "|||",      col },
 	{ "[\\]",     dwindle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
@@ -144,6 +145,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F6,     setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_F7,     setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_F8,     setlayout,      {.v = &layouts[7]} },
+	{ MODKEY,                       XK_F9,     setlayout,      {.v = &layouts[8]} },
   /* App shortcuts (primary apps map to tags).
    * TODO: These can be extracted out into a function. */
 	{ MODKEY,                       XK_e,      sheditor,       {0} },
