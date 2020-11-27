@@ -86,8 +86,8 @@ static const Layout layouts[] = {
 	{ ">M>",      centeredfloatingmaster },
 	{ "[M]",      monocle },
 	{ "HHH",      horizgrid },
-	{ "(@)",      spiral },
 	{ "[]=",      tile },
+	{ "(@)",      spiral },
   { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -142,6 +142,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F4,     setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_F5,     setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_F6,     setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_F7,     setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_F8,     setlayout,      {.v = &layouts[7]} },
   /* App shortcuts (primary apps map to tags).
    * TODO: These can be extracted out into a function. */
 	{ MODKEY,                       XK_e,      sheditor,       {0} },
