@@ -2568,7 +2568,7 @@ void monomode(const Arg *arg)
   Arg togglebar_arg = {0};
   Arg layout_arg;
   if (selmon->mono) {
-    layout_arg.v = &layouts[3];
+    layout_arg.v = &layouts[7];
   } else {
     layout_arg.v = &layouts[0];
   }

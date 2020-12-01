@@ -85,10 +85,10 @@ static const Layout layouts[] = {
 	{ "[\\]",     dwindle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-	{ "[M]",      monocle },
 	{ "HHH",      horizgrid },
 	{ "[]=",      tile },
 	{ "(@)",      spiral },
+	{ "[M]",      monocle },
   { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
