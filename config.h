@@ -64,6 +64,7 @@ static const Rule rules[] = {
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         0,         -1 },
 	{ "copyq",              NULL,         NULL,  ~0,       1,         1,         -1 },
 	{ "scrcpy",             NULL,         NULL,  1 << 4,   0,         1,         -1 },
+	{ NULL,                 NULL,         "background-task",  1 << 4, 0, 0,      -1 },
 	{ "Firefox",            NULL,         NULL,  1 << 3,   0,         0,         -1 },
 	{ "vlc",                NULL,         NULL,  ~0,       0,         1,         -1 },
 };
@@ -80,13 +81,14 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{ "|||",      col },
 	{ "[\\]",     dwindle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-	{ "[M]",      monocle },
 	{ "HHH",      horizgrid },
-	{ "(@)",      spiral },
 	{ "[]=",      tile },
+	{ "(@)",      spiral },
+	{ "[M]",      monocle },
   { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -143,6 +145,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F4,     setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_F5,     setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_F6,     setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_F7,     setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_F8,     setlayout,      {.v = &layouts[7]} },
+	{ MODKEY,                       XK_F9,     setlayout,      {.v = &layouts[8]} },
   /* App shortcuts (primary apps map to tags).
    * TODO: These can be extracted out into a function. */
 	{ MODKEY,                       XK_e,      sheditor,       {0} },
