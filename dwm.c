@@ -330,8 +330,8 @@ static void shaltbrowser(void);
 static void shetc(void);
 static void shclipboardmanager(void);
 static void shpasswordmanager(void);
-/* static void shlauncher(const Arg *arg); */
 static void shlauncher(void);
+static void shaltlauncher(void);
 static void shapp(void);
 static void shadminapp(void);
 static void shtogglevolume(void);
@@ -2562,7 +2562,7 @@ togglefloating(const Arg *arg)
            (selmon->wy +(0.05*selmon->wh)),
            (selmon->ww*0.5),
            (selmon->wh*0.9),
-           0); 
+           0);
   }
 	arrange(selmon);
 }
@@ -3409,6 +3409,9 @@ static void shpasswordmanager(void) {
 }
 static void shlauncher(void) {
 	system("cd ~/.dwm; ./run-launcher.sh &");
+}
+static void shaltlauncher(void) {
+	system("cd ~/.dwm; ./run-alt-launcher.sh &");
 }
 static void shapp(void) {
 	system("cd ~/.dwm; ./run-app-launcher.sh &");

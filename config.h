@@ -132,7 +132,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY,                       XK_space,  shlauncher,     {0} },
+	{ MODKEY|ShiftMask,             XK_space,  shaltlauncher,     {0} },
 	{ MODKEY,                       XK_g,      shlauncher,     {0} },
+	{ MODKEY|ShiftMask,             XK_g,      shaltlauncher,     {0} },
 	{ MODKEY,                       XK_x,      shscreenlock,   {0} },
 	/* Numeric shortcuts for layouts. */
   { MODKEY,                       XK_F1,     setlayout,      {.v = &layouts[0]} },
