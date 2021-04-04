@@ -111,13 +111,16 @@ static const char *termcmd[]  = { "st", NULL };
 #include "zoomswap.c"
 #include "focusmaster.c"
 #include "selfrestart.c"
+#include "movestack.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
   /* Window and focus management. */
-  { MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
-  { MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
+  /* { MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } }, */
+  /* { MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } }, */
+	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_y,      focusmaster,    {.i = -1 } },
