@@ -3,3 +3,4 @@
 *.rej
 *.swp
 /dwm-msg
+/.vscode/

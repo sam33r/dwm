@@ -2497,7 +2497,13 @@ col(Monitor *m) {
 			x += WIDTH(c);
 		}
 		else {
-			h = (m->wh - y) / (n - i);
+      // For the first client outside master, reserve half the monitor height,
+      // except if it's the only client outside master.
+      if (y == 0 && (n - m->nmaster) != 1) {
+        h = (m->wh / 2);
+      } else {
+        h = (m->wh - y) / (n - i);
+      }
 			resize(c, x + m->wx, m->wy + y, m->ww - x  - (2*c->bw), h - (2*c->bw), False);
 			y += HEIGHT(c);
 		}
@@ -2525,7 +2531,13 @@ tile(Monitor *m)
 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			my += HEIGHT(c);
 		} else {
-			h = (m->wh - ty) / (n - i);
+      // For the first client outside master, reserve half the monitor height,
+      // except if it's the only client outside master.
+      if (ty == 0 && (n - m->nmaster) != 1) {
+        h = (m->wh / 2);
+      } else {
+        h = (m->wh - ty) / (n - i);
+      }
 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
 			ty += HEIGHT(c);
 		}
