@@ -172,7 +172,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_a,      shadminapp,     {0} },
   /* Holding bay. */
 	{ MODKEY|ShiftMask,             XK_period, combotag,       {.ui = 1 << 4} },
-  { MODKEY,                       XK_period, comboview,      {.ui = 1 << 4} },
+  { MODKEY,                       XK_period, toggleholdingbay,      {.ui = 1 << 4} },
   /* Numeric and special key shortcuts. */
 	{ MODKEY,                       XK_1, shnumeric,          {.ui = 1} },
 	{ MODKEY,                       XK_2, shnumeric,          {.ui = 2} },

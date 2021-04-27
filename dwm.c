@@ -307,6 +307,7 @@ static void updatestatus(void);
 static void updatewindowtype(Client *c);
 static void updatetitle(Client *c);
 static void updatewmhints(Client *c);
+static void toggleholdingbay(const Arg *arg);
 static void view(const Arg *arg);
 static void warp(const Client *c);
 static Client *wintoclient(Window w);
@@ -429,7 +430,7 @@ comboview(const Arg *arg) {
 	} else {
 		selmon->seltags ^= 1;	/*toggle tagset*/
 		combo = 1;
-		if (newtags)
+		if (newtags && !(newtags == selmon->tagset[selmon->seltags]))
 			selmon->tagset[selmon->seltags] = newtags;
 	}
 	focus(NULL);
@@ -3132,6 +3133,19 @@ updatewmhints(Client *c)
 			c->neverfocus = 0;
 		XFree(wmh);
 	}
+}
+
+void
+toggleholdingbay(const Arg *arg)
+{
+  // If already at the holding bay, go back.
+  // Else go to holding bay.
+	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags]) {
+    Arg a = {0};
+    view(&a);
+  } else {
+    comboview(arg);
+  }
 }
 
 void
