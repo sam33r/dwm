@@ -3425,24 +3425,43 @@ centeredfloatingmaster(Monitor *m)
 static void shscreenlock(void) {
 	system("cd ~/.dwm; ./screen-lock.sh &");
 }
+
+// TODO: Make a common function to "reach" an app/tag.
 static void sheditor(void) {
 	Arg a = {.ui = 1 << 2};
-  ensureview(&a);
+	if (((1 << 4) & TAGMASK) == selmon->tagset[selmon->seltags]) {
+    comboview(&a);
+  } else {
+    ensureview(&a);
+  }
 	system("cd ~/.dwm; ./run-editor.sh &");
 }
 static void shterm(void) {
 	Arg a = {.ui = 1 << 0};
-  ensureview(&a);
+
+	if (((1 << 4) & TAGMASK) == selmon->tagset[selmon->seltags]) {
+    comboview(&a);
+  } else {
+    ensureview(&a);
+  }
 	system("cd ~/.dwm; ./run-term.sh &");
 }
 static void shbrowser(void) {
 	Arg a = {.ui = 1 << 3};
-  ensureview(&a);
+	if (((1 << 4) & TAGMASK) == selmon->tagset[selmon->seltags]) {
+    comboview(&a);
+  } else {
+    ensureview(&a);
+  }
 	system("cd ~/.dwm; ./run-browser.sh &");
 }
 static void shaltbrowser(void) {
 	Arg a = {.ui = 1 << 1};
-  ensureview(&a);
+	if (((1 << 4) & TAGMASK) == selmon->tagset[selmon->seltags]) {
+    comboview(&a);
+  } else {
+    ensureview(&a);
+  }
 	system("cd ~/.dwm; ./run-alt-browser.sh &");
 }
 
