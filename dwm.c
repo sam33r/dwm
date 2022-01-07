@@ -2501,7 +2501,7 @@ col(Monitor *m) {
       // For the first client outside master, reserve half the monitor height,
       // except if it's the only client outside master.
       if (y == 0 && (n - m->nmaster) != 1) {
-        h = (m->wh / 2);
+        h = ((m->wh / 3) * 2);
       } else {
         h = (m->wh - y) / (n - i);
       }
@@ -2535,7 +2535,7 @@ tile(Monitor *m)
       // For the first client outside master, reserve half the monitor height,
       // except if it's the only client outside master.
       if (ty == 0 && (n - m->nmaster) != 1) {
-        h = (m->wh / 2);
+        h = ((m->wh / 3) * 2);
       } else {
         h = (m->wh - ty) / (n - i);
       }
