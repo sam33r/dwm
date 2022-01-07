@@ -28,7 +28,7 @@ enum showtab_modes { showtab_never, showtab_auto, showtab_always, showtab_nmodes
 static const int showtab            = showtab_never; /* Default tab bar show mode */
 static const int toptab             = True;    /* False means bottom tab bar */
 
-static const char *fonts[]          = { "Iosevka Sparkle:size=14" };
+static const char *fonts[]          = { "Iosevka Aile:size=14" };
 static const char dmenufont[]       = "monospace:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
