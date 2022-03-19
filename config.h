@@ -47,15 +47,15 @@ static const char *colors[][3]      = {
 /* tagging */
 static const char *tags[] = { "t", "r", "e", "f", "."};
 
+/* Note that rules are applied in order.
+ * If two rules apply to a window, the second one overrides the first.
+ */
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                instance      title  tags mask iscentered isfloating monitor */
-  { NULL,                 "current",    NULL,  ~0,       1,         1,         -1 },
-	{ NULL,                 "capture",    NULL,  ~0,       1,         1,         -1 },
-	{ NULL,                 "agenda",     NULL,  ~0,       1,         1,         -1 },
 	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         0,         -1 },
 	{ "Alacritty",          NULL,         NULL,  1 << 0,   0,         0,         -1 },
 	{ "st-256color",        NULL,         NULL,  ~0,       1,         1,         -1 },
@@ -68,6 +68,7 @@ static const Rule rules[] = {
 	{ NULL,                 "emacs",      "background-task",  1 << 4, 0, 0,      -1 },
 	{ "Firefox",            NULL,         NULL,  1 << 3,   0,         0,         -1 },
 	{ "vlc",                NULL,         NULL,  ~0,       0,         1,         -1 },
+	{ NULL,                 NULL,         "_MODAL_",~0,    1,         1,         -1 },
 };
 
 /* layout(s) */
