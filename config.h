@@ -38,10 +38,15 @@ static const char col_cyan[]        = "#005577";
 static const char col_white[]       = "#ffffff";
 static const char col_green[]       = "#39e6e3";
 static const char col_red[]         = "#d9002b";
+/* static const char *colors[][3]      = { */
+/* 	/1*               fg         bg         border   *1/ */
+/* 	[SchemeNorm] = { col_gray2, col_gray4, col_white }, */
+/* 	[SchemeSel]  = { col_red, col_white, col_red  }, */
+/* }; */
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray2, col_gray4, col_white },
-	[SchemeSel]  = { col_red, col_white, col_red  },
+	[SchemeNorm] = { col_gray4, col_gray1, col_gray1 },
+	[SchemeSel]  = { col_red, col_gray2, col_red  },
 };
 
 /* tagging */
@@ -58,7 +63,7 @@ static const Rule rules[] = {
 	/* class                instance      title  tags mask iscentered isfloating monitor */
 	{ "Gnome-terminal",     NULL,         NULL,  1 << 0,   0,         0,         -1 },
 	{ "Alacritty",          NULL,         NULL,  1 << 0,   0,         0,         -1 },
-	{ "st-256color",        NULL,         NULL,  ~0,       1,         1,         -1 },
+	{ "st-256color",        NULL,         NULL,  1 << 0,   0,         0,         -1 },
   { "Google-chrome",      NULL,         NULL,  1 << 1,   0,         0,         -1 },
   { "Chromium",           NULL,         NULL,  1 << 1,   0,         0,         -1 },
   { NULL,                 "emacs",      NULL,  1 << 2,   0,         0,         -1 },
