@@ -88,8 +88,8 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 /* first entry is default */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "(o)",      magic },
 	{ "|||",      col },
+	{ "(o)",      magic },
 	{ "[\\]",     dwindle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
